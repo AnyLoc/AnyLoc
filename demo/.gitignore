@@ -1,0 +1,8 @@
+# Ignore the cache and images (too large to upload)
+cache
+imgs
+res
+# Ignore flags
+flagged
+# Testing python
+test_*.py

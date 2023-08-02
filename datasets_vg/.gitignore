@@ -1,0 +1,11 @@
+# custom
+msls
+testing.py
+
+
+z_others
+datasets
+.spyproject
+__pycache__
+map_*.png
+tmp
