@@ -25,7 +25,7 @@
 
 ## Contents
 
-The contents of this repository as as follows
+The contents of this repository as follows
 
 | S. No. | Item | Description |
 | :---: | :--- | :----- |
