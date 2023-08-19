@@ -2,7 +2,11 @@
 cache
 imgs
 res
+data
 # Ignore flags
 flagged
 # Testing python
 test_*.py
+# Example images
+ex_*.png
+ex_*.jpg

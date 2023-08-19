@@ -37,7 +37,8 @@
 
 Add your shields here (if you want to)
 
-[![Developer TheProjectsGuy][dev-shield]][dev-profile-link]
-
-[dev-shield]: https://img.shields.io/badge/Developer-TheProjectsGuy-blue
-[dev-profile-link]: https://github.com/TheProjectsGuy
+[![Developer TheProjectsGuy](https://img.shields.io/badge/Developer-TheProjectsGuy-blue)](https://github.com/TheProjectsGuy)
+[![Developer JayKarhade](https://img.shields.io/badge/Developer-JayKarhade-b22222)](https://github.com/JayKarhade)
+[![Developer Nik-V9](https://img.shields.io/badge/Developer-Nik--V9-orange)](https://github.com/Nik-V9)
+[![Developer krrish94](https://img.shields.io/badge/Developer-krrish94-blue)](https://github.com/krrish94)
+[![Developer oravus](https://img.shields.io/badge/Developer-oravus-blue)](https://github.com/oravus)

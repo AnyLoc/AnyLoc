@@ -1,6 +1,6 @@
 # Script to setup conda environment
 
-_CONDA_ENV_NAME="${1:-vl-vpr}"
+_CONDA_ENV_NAME="${1:-anyloc}"
 
 # Ensure conda is installed
 if ! [ -x "$(command -v conda)" ]; then
@@ -75,6 +75,7 @@ conda_install -c conda-forge graphviz
 conda_install -c conda-forge gradio
 pip_install torchviz
 pip_install torchscan
+pip_install onedrivedownloader
 echo "---------- Installing other packages ----------"
 conda_install -c conda-forge jupyter
 conda_install -c conda-forge nvitop

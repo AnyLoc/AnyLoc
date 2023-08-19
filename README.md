@@ -3,11 +3,17 @@
 [![License: BSD-3](https://img.shields.io/badge/License-BSD--3-yellow.svg?style=flat-square)](https://opensource.org/license/BSD-3-clause/)
 [![stars](https://img.shields.io/github/stars/AnyLoc/AnyLoc?style=social)](https://github.com/AnyLoc/AnyLoc/stargazers)
 [![arXiv](https://img.shields.io/badge/arXiv-2308.00688-b31b1b.svg)](https://arxiv.org/abs/2308.00688)
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/AnyLoc/AnyLoc/blob/main/demo/images_vlad_clusters.ipynb)
+[![githubio](https://img.shields.io/badge/GitHub.io-Anyloc-blue?logo=Github)](https://anyloc.github.io/)
+[![github](https://img.shields.io/badge/GitHub-Anyloc%2FAnyloc-blue?logo=Github)](https://github.com/AnyLoc/AnyLoc)
+[![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face%20-AnyLoc-blue)](https://huggingface.co/spaces/TheProjectsGuy/AnyLoc)
+[![Hugging Face Papers](https://img.shields.io/badge/%F0%9F%A4%97-HF--Paper-blue)](https://huggingface.co/papers/2308.06595)
 [![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=flat&logo=youtube&logoColor=white)](https://youtu.be/ITo8rMInatk)
-[![Website](https://img.shields.io/badge/Website-black)](https://anyloc.github.io/)
 
 > **Note**: Work in progress. Major changes expected.
+
+[![Open In Colab: Global Descriptors](https://img.shields.io/badge/IIITH--OneDrive-Global%20Descriptors-blue?logo=googlecolab&label=&labelColor=grey)](https://colab.research.google.com/github/AnyLoc/AnyLoc/blob/main/demo/anyloc_vlad_generate_colab.ipynb)
+[![Open In Colab: Cluster visualizations](https://img.shields.io/badge/IIITH--OneDrive-Cluster%20Visualizations-blue?logo=googlecolab&label=&labelColor=grey)](https://colab.research.google.com/github/AnyLoc/AnyLoc/blob/main/demo/images_vlad_clusters.ipynb)
+[![Public Release on IIITH-OneDrive](https://img.shields.io/badge/IIITH--OneDrive-Public%20Material-%23D83B01?logo=microsoftonedrive&logoColor=%230078D4&label=&labelColor=grey)](https://iiitaphyd-my.sharepoint.com/:f:/g/personal/avneesh_mishra_research_iiit_ac_in/Ek6y97czRqRIgIrd4Yj2_aYBz02Nkvmdbh_9Ec_-HgMSHw)
 
 ## Table of contents
 
@@ -16,12 +22,17 @@
     - [Contents](#contents)
         - [Included Repositories](#included-repositories)
     - [PapersWithCode Badges](#paperswithcode-badges)
-    - [Developer Setup](#developer-setup)
-        - [HPC Setup](#hpc-setup)
-            - [PSC Setup](#psc-setup)
-            - [Ada Setup](#ada-setup)
+    - [Getting Started](#getting-started)
+        - [Using the SOTA: AnyLoc-VLAD-DINOv2](#using-the-sota-anyloc-vlad-dinov2)
+        - [Using the APIs](#using-the-apis)
+            - [DINOv2](#dinov2)
+            - [VLAD](#vlad)
+            - [DINOv1](#dinov1)
+    - [Validating the Results](#validating-the-results)
+        - [NVIDIA NGC Singularity Container Setup](#nvidia-ngc-singularity-container-setup)
         - [Dataset Setup](#dataset-setup)
     - [References](#references)
+        - [Cite Our Work](#cite-our-work)
 
 ## Contents
 
@@ -29,18 +40,20 @@ The contents of this repository as as follows
 
 | S. No. | Item | Description |
 | :---: | :--- | :----- |
-| 1 | [scripts](./scripts/) | Contains all scripts for development. Use the `-h` option for argument information. |
-| 2 | [demo](./demo/) | Contains standalone demo scripts (Jupyter Notebook and Gradio app) to run our `AnyLoc-VLAD-DINOv2` method. |
+| 1 | [demo](./demo/) | Contains standalone demo scripts (Quick start, Jupyter Notebook, and Gradio app) to run our `AnyLoc-VLAD-DINOv2` method. Also contains guides for APIs. This folder is self-contained (doesn't use anything outside it). |
+| 2 | [scripts](./scripts/) | Contains all scripts for development. Use the `-h` option for argument information. |
 | 3 | [configs.py](./configs.py) | Global configurations for the repository |
 | 4 | [utilities](./utilities.py) | Utility Classes & Functions (includes DINOv2 hooks & VLAD) |
 | 5 | [conda-environment.yml](./conda-environment.yml) | The conda environment (it could fail to install OpenAI CLIP as it includes a `git+` URL). We suggest you use the [setup_conda.sh](./setup_conda.sh) script. |
-| 6 | [requirements.txt](./requirements.txt) | Requirements file for pip virtual environment. Potentially out of date. |
-| 7 | [custom_datasets](./custom_datasets/) | Custom datalaoder implementations for VPR |
+| 6 | [requirements.txt](./requirements.txt) | Requirements file for pip virtual environment. Probably out of date. |
+| 7 | [custom_datasets](./custom_datasets/) | Custom datalaoder implementations for VPR. |
 | 8 | [examples](./examples/) | Miscellaneous example scripts |
 | 9 | [MixVPR](./MixVPR/) | Minimal MixVPR inference code |
-| 10 | [clip_wrapper.py](./clip_wrapper.py) | A wrapper around two CLIP implementations |
+| 10 | [clip_wrapper.py](./clip_wrapper.py) | A wrapper around two CLIP implementations (OpenAI and OpenCLIP). |
 | 11 | [models_mae.py](./models_mae.py) | MAE implementation |
 | 12 | [dino_extractor.py](./dino_extractor.py) | DINO feature extractor |
+| 13 | [CONTRIBUTING.md](./CONTRIBUTING.md) | Note for contributors |
+| 14 | [paper_utils](./paper_utils/) | Paper scripts (formatting for figures, etc.) |
 
 ### Included Repositories
 
@@ -67,17 +80,149 @@ Includes the following repositories (currently not submodules) as subfolders.
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/anyloc-towards-universal-visual-place/visual-place-recognition-on-st-lucia)](https://paperswithcode.com/sota/visual-place-recognition-on-st-lucia?p=anyloc-towards-universal-visual-place)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/anyloc-towards-universal-visual-place/visual-place-recognition-on-pittsburgh-30k)](https://paperswithcode.com/sota/visual-place-recognition-on-pittsburgh-30k?p=anyloc-towards-universal-visual-place)
 
-## Developer Setup
+## Getting Started
 
-> [Note to contributors](CONTRIBUTING.md)
+> **Tip**: You can explore the [HuggingFace Space](https://huggingface.co/spaces/TheProjectsGuy/AnyLoc) and the Colab notebooks (no GPU needed).
 
-### HPC Setup
+Clone this repository
+
+```bash
+git clone https://github.com/AnyLoc/AnyLoc.git
+cd AnyLoc
+```
+
+Set up the conda environment
+
+```bash
+conda create -n anyloc python=3.8
+conda activate anyloc
+bash ./setup_conda.sh
+```
+
+You can also use an existing conda environment, say `vl-vpr`, by doing
+
+```bash
+bash ./setup_conda.sh vl-vpr
+```
+
+Note the following:
+
+- All our public release files can be found [here](https://iiitaphyd-my.sharepoint.com/:f:/g/personal/avneesh_mishra_research_iiit_ac_in/Ek6y97czRqRIgIrd4Yj2_aYBz02Nkvmdbh_9Ec_-HgMSHw).
+    - If the conda environment setup is taking time, you could just unzip `conda-env.tar.gz` (GB) in your `~/anaconda3/envs` folder (but compatibility is not guaranteed).
+- The `./scripts` folder is for validating our results and seeing the main scripts. Most applications are in the `./demo` folder. See the list of [demos](./demo/) before running anything.
+- If you're running something in the `./scripts` folder, run it with `pwd` in this (repository) folder. For example, python scripts are run as `python ./scripts/<script>.py` and bash scripts are run as `bash ./scripts/<script>.sh`. For the demos and other baselines, you should `cd` into respective folders.
+- The [utilities.py](./utilities.py) file is mainly for `./scripts` files. All demos actually use the [demo/utilities.py](./demo/utilities.py) file (which is distilled and minimal). Using the latter should be enough to implement our SOTA method.
+
+### Using the SOTA: AnyLoc-VLAD-DINOv2
+
+[![Open In Colab](https://img.shields.io/badge/IIITH--OneDrive-Global%20Descriptors-blue?logo=googlecolab&label=&labelColor=grey)](https://colab.research.google.com/github/AnyLoc/AnyLoc/blob/main/demo/anyloc_vlad_generate_colab.ipynb)
+[![Local Python script](https://img.shields.io/badge/Python-.%2Fdemo%2Fanyloc__vlad__generate.py-blue?logo=python&labelColor=white&label=&color=gray)](./demo/anyloc_vlad_generate.py)
+
+### Using the APIs
+
+Import the utilities
+
+```py
+from utilities import DinoV2ExtractFeatures
+from utilities import VLAD
+```
+
+#### DINOv2
+
+DINOv2 feature extractor can be used as follows
+
+```py
+extractor = DinoV2ExtractFeatures("dinov2_vitg14", desc_layer,
+        desc_facet, device=device)
+```
+
+Get the descriptors using
+
+```py
+# Make image patchable (14, 14 patches)
+c, h, w = img_pt.shape
+h_new, w_new = (h // 14) * 14, (w // 14) * 14
+img_pt = tvf.CenterCrop((h_new, w_new))(img_pt)[None, ...]
+# Main extraction
+ret = extractor(img_pt) # [1, num_patches, desc_dim]
+```
+
+#### VLAD
+
+The VLAD aggregator can be loaded with vocabulary (cluster centers) from a `c_centers.pt` file.
+
+```py
+# Main VLAD object
+vlad = VLAD(num_c, desc_dim=None, cache_dir=os.path.dirname(c_centers_file))
+vlad.fit(None)  # Load the vocabulary (and auto-detect `desc_dim`)
+# Cluster centers have shape: [num_c, desc_dim]
+#   - num_c: number of clusters
+#   - desc_dim: descriptor dimension
+```
+
+If you have a database of descriptors you want to fit, use
+
+```py
+vlad.fit(ein.rearrange(full_db_vlad, "n k d -> (n k) d"))
+# n: number of images
+# k: number of patches/descriptors per image
+# d: descriptor dimension
+```
+
+To get the VLAD representations of multiple images, use
+
+```py
+db_vlads: torch.Tensor = vlad.generate_multi(full_db)
+# Shape of full_db: [n_db, n_d, d_dim]
+#   - n_db: number of images in the database
+#   - n_d: number of descriptors per image
+#   - d_dim: descriptor dimension
+# Shape of db_vlads: [n_db, num_c * d_dim]
+#   - num_c: number of clusters (centers)
+```
+
+#### DINOv1
+
+<!-- TODO: Content needed -->
+TODO
+
+## Validating the Results
+
+You don't need to read further if you're not experimentally validating the entire results (enjoy the [demos](./demo/) instead). The following sections are for the curious minds who want to reproduce the results.
+
+> [Note to/for contributors](CONTRIBUTING.md)
+
+All the runs were done on a machine with the following specifications:
+
+- CPU: Two Intel Xeon Gold 5317 CPUs (12C24T each)
+- CPU RAM: 256 GB
+- GPUs: Four NVIDIA RTX 3090 GPUs (24 GB, 10496 CUDA cores each)
+- Storage: 3.5 TB HDD on `/scratch`. However, all datasets will take 32+ GB, have more for other requirements (for VLAD cluster centers, caching, models, etc.). We noticed that singularity (with SIF, cache, and tmp) used 90+ GB.
+    - Driver Version (NVIDIA-SMI): 570.47.03
+    - CUDA (SMI): 11.6
+
+We can use only one GPU; however, some experiments (with large datasets) might need all of the CPU RAM (for efficient/fast nearest neighbor search). Ideally, a 16 GB GPU should also work.
+
+Do the following
+
+1. Clone the repository and setup the NVIDIA NGC container (run everything inside it)
+2. Setup the datasets (download, format, and unzip them)
+3. Run the script you want to test from [scripts](./scripts/) folder
+
+Start by cloning/setting up the repository
+
+```bash
+cd ~/Documents
+git clone https://github.com/AnyLoc/AnyLoc.git vl-vpr
+```
+
+### NVIDIA NGC Singularity Container Setup
+
+Despite using [recommended practices of reproducibility](https://pytorch.org/docs/stable/notes/randomness.html) (see function `seed_everything` in [utilities.py](./utilities.py)) in PyTorch, we noticed minor changes across GPU types and CUDA versions. To mitigate this, we recommend using a singularity container.
 
 Setting up the environment in a singularity container (in a SLURM environment)
 
-#### PSC Setup
-
-For CMU
+> **TL;DR**: Run the following (this system is a different one). This was tested on [CMU's Bridges-2 partition of PSC HPC](https://www.psc.edu/resources/bridges-2/). Don't use this if you want to replicate the tables in the paper (but the numbers come close).
 
 ```bash
 salloc -p GPU-small -t 01:00:00 --ntasks-per-node=5 --gres=gpu:v100-32:1
@@ -89,14 +234,14 @@ source vlvpr/bin/activate
 cd /ocean/projects/cis220039p/<path to vl-vpr scripts folder>
 ```
 
-#### Ada Setup
+> **Main setup**: For Singularity on [IIITH's Ada HPC](https://hpc.iiit.ac.in/wiki/index.php/Ada_User_Guide) (Ubuntu 18.04) - our main setup for validation. Use this if you want to replicate the tables in the paper (hardware should be same as listed before).
 
-For Singularity on IIITH's Ada HPC
+The script below assumes that this repository is cloned in `~/Documents/vl-vpr`. That is, this README is at `~/Documents/vl-vpr/README.md`.
 
 ```bash
 # Load the module and configurations
 module load u18/singularity-ce/3.9.6
-mkdir /scratch/$USER/singularity && cd $_ && mkdir .cache .tmp venvs
+mkdir -p /scratch/$USER/singularity && cd $_ && mkdir .cache .tmp venvs
 export SINGULARITY_CACHEDIR=/scratch/$USER/singularity/.cache
 export SINGULARITY_TMPDIR=/scratch/$USER/singularity/.tmp
 # Ensure that the next command gives output "1" (or anything other than "0")
@@ -109,8 +254,8 @@ singularity shell --nv ngc_pytorch_22.12-py3
 singularity instance start --mount "type=bind,source=/scratch/$USER,destination=/scratch/$USER" \
     --nv ngc_pytorch_22.12-py3 vl-vpr
 singularity run --nv instance://vl-vpr
-cd ~/Documents/vl-vpr/
 # Create virtual environment
+cd ~/Documents/vl-vpr/
 pip install virtualenv
 cd venvs
 virtualenv --system-site-packages vl-vpr
@@ -118,14 +263,34 @@ virtualenv --system-site-packages vl-vpr
 cd ~/Documents/vl-vpr/
 source ./venvs/vl-vpr/bin/activate
 bash ./setup_virtualenv_ngc.sh
-# Run anything you want (from here, but in scripts)
+# Run anything you want (from here, but find the file in scripts)
 cd ~/Documents/vl-vpr/
 python ./scripts/<task name>.py <args>
+# The baseline scripts should be run in their own folders. For example, to run CosPlace, do
+cd ~/Documents/vl-vpr/
+cd CosPlace
+python ./<script>.py
 ```
 
 ### Dataset Setup
 
-After setting up the unstructured datasets, the folders should look like this (in the dataset folder)
+> **Datasets Note**: Some datasets are under review (other works) and will be updated soon.
+
+Set them up in a folder with sufficient space
+
+```bash
+mkdir -p /scratch/$USER/vl-vpr/datasets && cd $_
+```
+
+Download (and unzip) the datasets from here into this folder. Link this folder (for easy access form this repository)
+
+```bash
+cd ~/Documents/vl-vpr/
+cd ./datasets-vg
+ln -s /scratch/$USER/vl-vpr/datasets datasets
+```
+
+After setting up all datasets, the folders should look like this (in the dataset folder). Run the following command to get the tree structure.
 
 ```bash
 tree ./eiffel ./hawkins*/ ./laurel_caverns ./VPAir ./test_40_midref_rot*/ ./Oxford_Robotcar ./gardens ./17places ./baidu_datasets ./st_lucia ./pitts30k --filelimit=20 -h
@@ -134,6 +299,7 @@ tree ./eiffel ./hawkins*/ ./laurel_caverns ./VPAir ./test_40_midref_rot*/ ./Oxfo
 - The `test_40_midref_rot0` is `Nardo Air`. This is also referred as `Tartan_GNSS_notrotated` in our scripts.
 - The `test_40_midref_rot90` is `Nardo Air-R` (rotated). This is also referred as `Tartan_GNSS_rotated` in out scripts.
 - The `hawkins_long_corridor` is the Hawkins dataset.
+- The `eiffel` dataset is `Mid-Atlantic Ridge` (underwater dataset).
 
 Output will be something like
 
@@ -237,6 +403,26 @@ Output will be something like
         └── [4.4M]  queries.npy
 ```
 
+These directories are put under `./datasets_vg/datasets` folder (can store them in scratch and symlink it there). For example, the 17places dataset can be found under `./datasets_vg/datasets/17places` folder.
+
+Original dataset webpages:
+
+- [Oxford RobotCar](https://robotcar-dataset.robots.ox.ac.uk/)
+- [St. Lucia](https://open.qcr.ai/dataset/st-lucia-multiple/) (also see other datasets in [VPR-Bench](https://open.qcr.ai/dataset/vprbench/))
+- [Pitts 30k](http://www.ok.ctrl.titech.ac.jp/~torii/project/repttile/) (could also find it [here](https://github.com/Relja/netvlad/issues/37))
+- [Gardens Point](https://zenodo.org/record/4590133)
+- [17places](https://www.raghavendersahdev.com/place-recognition.html) (zipped download [link](https://cloudstor.aarnet.edu.au/plus/s/6sMAG8djfQvWuIx))
+- [Baidu Mall](https://openaccess.thecvf.com/content_cvpr_2017/html/Sun_A_Dataset_for_CVPR_2017_paper.html) (zipped on [dropbox from authors](https://www.dropbox.com/s/4mksiwkxb7t4a8a/IDL_dataset_cvpr17_3852.zip?dl=0))
+- [VPAir](https://github.com/AerVisLoc/vpair)
+- [Mid-Atlantic Ridge](https://www.seanoe.org/data/00680/79218/)
+
+> **Note**: We're in the process of releasing `Nardo-Air` (Tartan Air), `Laurel Caverns`, and `Hawkins` (part of SubT-MRS). Please stay tuned!
+
+Some datasets can be found at other places
+
+- [SuperOdometry - ICCV 2023 SLAM Challenge](https://superodometry.com/datasets)
+- [ZhangXiwuu/Awesome_visual_place_recognition_datasets](https://github.com/ZhangXiwuu/Awesome_visual_place_recognition_datasets)
+
 ## References
 
 We thank the authors of the following repositories for their open source code and data:
@@ -256,6 +442,20 @@ We thank the authors of the following repositories for their open source code an
 - [SAM](https://github.com/facebookresearch/segment-anything)
 - [MAE](https://github.com/facebookresearch/mae)
 - [DINOv2](https://github.com/facebookresearch/dinov2)
+
+### Cite Our Work
+
+Thanks for using our work. You can cite it as:
+
+```bib
+@article{AnyLoc,
+    author    = {Nikhil Keetha and Avneesh Mishra and Jay Karhade and Krishna Murthy Jatavallabhula and Sebastian Scherer and Madhava Krishna and Sourav Garg}
+    title     = {AnyLoc: Towards Universal Visual Place Recognition},
+    url       = {https://arxiv.org/abs/2308.00688}
+    journal   = {arXiv},
+    year      = {2023},
+}
+```
 
 Developers:
 
