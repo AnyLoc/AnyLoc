@@ -5,15 +5,12 @@
 [![arXiv](https://img.shields.io/badge/arXiv-2308.00688-b31b1b.svg)](https://arxiv.org/abs/2308.00688)
 [![githubio](https://img.shields.io/badge/GitHub.io-Anyloc-blue?logo=Github)](https://anyloc.github.io/)
 [![github](https://img.shields.io/badge/GitHub-Anyloc%2FAnyloc-blue?logo=Github)](https://github.com/AnyLoc/AnyLoc)
-[![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face%20-AnyLoc-blue)](https://huggingface.co/spaces/TheProjectsGuy/AnyLoc)
-[![Hugging Face Papers](https://img.shields.io/badge/%F0%9F%A4%97-HF--Paper-blue)](https://huggingface.co/papers/2308.06595)
 [![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=flat&logo=youtube&logoColor=white)](https://youtu.be/ITo8rMInatk)
-
-> **Note**: Work in progress. Major changes expected.
-
+[![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20HF%20Space-AnyLoc-blue)](https://huggingface.co/spaces/TheProjectsGuy/AnyLoc)
 [![Open In Colab: Global Descriptors](https://img.shields.io/badge/IIITH--OneDrive-Global%20Descriptors-blue?logo=googlecolab&label=&labelColor=grey)](https://colab.research.google.com/github/AnyLoc/AnyLoc/blob/main/demo/anyloc_vlad_generate_colab.ipynb)
 [![Open In Colab: Cluster visualizations](https://img.shields.io/badge/IIITH--OneDrive-Cluster%20Visualizations-blue?logo=googlecolab&label=&labelColor=grey)](https://colab.research.google.com/github/AnyLoc/AnyLoc/blob/main/demo/images_vlad_clusters.ipynb)
 [![Public Release on IIITH-OneDrive](https://img.shields.io/badge/IIITH--OneDrive-Public%20Material-%23D83B01?logo=microsoftonedrive&logoColor=%230078D4&label=&labelColor=grey)](https://iiitaphyd-my.sharepoint.com/:f:/g/personal/avneesh_mishra_research_iiit_ac_in/Ek6y97czRqRIgIrd4Yj2_aYBz02Nkvmdbh_9Ec_-HgMSHw)
+[![Hugging Face Paper](https://img.shields.io/badge/%F0%9F%A4%97-HF--Paper-blue)](https://huggingface.co/papers/2308.06595)
 
 ## Table of contents
 
@@ -36,7 +33,7 @@
 
 ## Contents
 
-The contents of this repository as as follows
+The contents of this repository are as follows
 
 | S. No. | Item | Description |
 | :---: | :--- | :----- |
@@ -51,7 +48,7 @@ The contents of this repository as as follows
 | 9 | [MixVPR](./MixVPR/) | Minimal MixVPR inference code |
 | 10 | [clip_wrapper.py](./clip_wrapper.py) | A wrapper around two CLIP implementations (OpenAI and OpenCLIP). |
 | 11 | [models_mae.py](./models_mae.py) | MAE implementation |
-| 12 | [dino_extractor.py](./dino_extractor.py) | DINO feature extractor |
+| 12 | [dino_extractor.py](./dino_extractor.py) | DINO (v1) feature extractor |
 | 13 | [CONTRIBUTING.md](./CONTRIBUTING.md) | Note for contributors |
 | 14 | [paper_utils](./paper_utils/) | Paper scripts (formatting for figures, etc.) |
 
@@ -183,8 +180,27 @@ db_vlads: torch.Tensor = vlad.generate_multi(full_db)
 
 #### DINOv1
 
-<!-- TODO: Content needed -->
-TODO
+This is present in [dino_extractor.py](./dino_extractor.py) (not a part of [demo/utilities.py](./demo/utilities.py)).
+
+Initialize and use it as follows the extractor
+
+```py
+# Import it
+from dino_extractor import ViTExtractor
+...
+
+# Initialize it (layer and key are when extracting descriptors)
+extractor = ViTExtractor("dino_vits8", stride=4, 
+        device=device)
+...
+
+# Use it to extract patch descriptors
+img = ein.rearrange(img, "c h w -> 1 c h w").to(device)
+img = F.interpolate(img, (224, 298))    # For 4:3 images
+desc = extractor.extract_descriptors(img,
+        layer=11, facet="key") # [1, 1, num_descs, d_dim]
+...
+```
 
 ## Validating the Results
 
@@ -274,7 +290,7 @@ python ./<script>.py
 
 ### Dataset Setup
 
-> **Datasets Note**: Some datasets are under review (other works) and will be updated soon.
+> **Datasets Note**: Some datasets are under review (other works) and will be updated soon. See the `Datasets-All` folder in out public material (for `.tar.gz` files).
 
 Set them up in a folder with sufficient space
 
@@ -298,7 +314,7 @@ tree ./eiffel ./hawkins*/ ./laurel_caverns ./VPAir ./test_40_midref_rot*/ ./Oxfo
 
 - The `test_40_midref_rot0` is `Nardo Air`. This is also referred as `Tartan_GNSS_notrotated` in our scripts.
 - The `test_40_midref_rot90` is `Nardo Air-R` (rotated). This is also referred as `Tartan_GNSS_rotated` in out scripts.
-- The `hawkins_long_corridor` is the Hawkins dataset.
+- The `hawkins_long_corridor` is the Hawkins dataset (degraded environment).
 - The `eiffel` dataset is `Mid-Atlantic Ridge` (underwater dataset).
 
 Output will be something like

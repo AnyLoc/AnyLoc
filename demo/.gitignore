@@ -10,3 +10,4 @@ test_*.py
 # Example images
 ex_*.png
 ex_*.jpg
+ex_*.jpeg

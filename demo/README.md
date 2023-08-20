@@ -42,7 +42,7 @@ python ./anyloc_vlad_generate.py --in-dir ./data/images --imgs-ext png --out-dir
 
 Use `--domain` to specify the domain of the images (default is `urban`). Use `--help` to see all the options.
 
-> **Tip**: You can get an idea of which domain to use by using our HuggingFace Space app. Upload a representative sample of your images under `GeM t-SNE Projection` and see which group of images do your uploaded images come close to.
+> **Tip**: You can get an idea of which domain to use by using our [HuggingFace Space](https://huggingface.co/spaces/TheProjectsGuy/AnyLoc) app. Upload a representative sample of your images under `GeM t-SNE Projection` and see which group of images do your uploaded images come close to.
 
 ### Demo 2: VLAD Cluster assignment visualization
 

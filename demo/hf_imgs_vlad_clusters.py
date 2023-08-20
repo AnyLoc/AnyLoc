@@ -45,7 +45,8 @@ applications are included
     domain for loading VLAD cluster centers (vocabulary).
 
 We do **not** save any images uploaded to the demo. Some errors may \
-leave a log. We do not collect any information about the user.
+leave a log. We do not collect any information about the user. The \
+example images are attributed in the respective tabs.
 
 🥳 Thanks to HuggingFace for providing a free GPU for this demo.
 
@@ -518,6 +519,16 @@ def tab_gem_tsne():
     
     bttn1 = gr.Button("Click Me!")
     
+    # ---- Examples ----
+    gr.Examples(
+        [
+            ["./ex_dining_room.jpeg", "./ex_city_road.jpeg"],
+            ["./ex_manhattan_aerial.jpeg", "./ex_city_road.jpeg"],
+            ["./ex_dining_room.jpeg", "./ex_manhattan_aerial.jpeg"],
+        ],
+        [*imgs],
+    )
+    
     # ---- Main pipeline ----
     # Get the tSNE plot
     bttn1.click(get_gem_descs_cache, dms, [out_msg1, gem_descs])\
@@ -562,6 +573,15 @@ with gr.Blocks() as demo:
             Enter the number of images to upload and upload images. \
             Then click the button to get the t-SNE plot.
             
+            You can also directly click on one of the examples (at \
+            the bottom) to load the data and then click the button \
+            to get the t-SNE plot.
+            
+            The examples have the following images
+            - [Manhattan aerial view](https://www.crushpixel.com/stock-photo/aerial-view-midtown-manhattan-849717.html)
+            - [Dining room](https://homesfeed.com/formal-dining-room-sets-for-8/)
+            - [City road](https://pxhere.com/en/photo/824211)
+            
             """)
         tab_gem_tsne()
     
@@ -578,6 +598,10 @@ with gr.Blocks() as demo:
             You can also directly click on one of the examples (at \
             the bottom) to load the data and then click the button \
             to get the cluster assignment images.
+            
+            - The `aerial` example is from the Tartan Air dataset
+            - The `indoor` example is from the 17Places dataset
+            - The `urban` example is from the Oxford dataset
             
             """)
         tab_cluster_viz()
