@@ -1,0 +1,5 @@
+"Name","R@1","model_type","desc_layer"
+"DINO_V2_VLAD/l31_value_c32/pitts30k/dinov2_vitg14","0.852112676056338","dinov2_vitg14","31"
+"DINO_V2_VLAD/l20_value_c32/pitts30k/dinov2_vitl14","0.840669014084507","dinov2_vitl14","20"
+"DINO_V2_VLAD/l10_value_c32/pitts30k/dinov2_vitb14","0.8088321596244131","dinov2_vitb14","10"
+"DINO_V2_VLAD/l10_value_c32/pitts30k/dinov2_vits14","0.7969483568075117","dinov2_vits14","10"

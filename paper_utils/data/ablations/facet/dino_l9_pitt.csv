@@ -1,0 +1,5 @@
+Name,R@1,Facet
+DINO_VLAD/l9_key_c128/pitts30k/dino_vits8,0.844043427,Key
+DINO_VLAD/l9_token_c128/pitts30k/dino_vits8,0.839642019,Token
+DINO_VLAD/l9_query_c128/pitts30k/dino_vits8,0.83846831,Query
+DINO_VLAD/l9_value_c128/pitts30k/dino_vits8,0.826731221,Value

@@ -49,5 +49,5 @@ if __name__ == '__main__':
     # Set plt to seaborn style
     plt.style.use('seaborn-v0_8-white')
     # Define color dict for ablation datasets
-    color_dict = {'Baidu Mall': (0, 0.3, 0.8), 'Oxford': (0, 0.5, 0)}
+    color_dict = {'Baidu Mall': (0, 0.3, 0.8), 'Oxford': (0, 0.5, 0), 'Pitts-30k': (0, 0.5, 0)}
     plot_layer_ablation(dataset_names, input_csvs, color_dict, args.model_name, args.output_path)

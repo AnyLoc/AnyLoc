@@ -1,5 +1,5 @@
-"Name","R@1",Facet
-"DINO_VLAD/l9_key_c128/Oxford/dino_vits8","0.5706806282722513",Key
-"DINO_VLAD/l9_query_c128/Oxford/dino_vits8","0.5497382198952879",Query
-"DINO_VLAD/l9_value_c128/Oxford/dino_vits8","0.46596858638743455",Value
-"DINO_VLAD/l9_token_c128/Oxford/dino_vits8","0.43455497382198954",Token
+Name,R@1,Facet
+DINO_VLAD/l9_key_c128/Oxford_25m/dino_vits8,0.64921466,Key
+DINO_VLAD/l9_query_c128/Oxford_25m/dino_vits8,0.643979058,Query
+DINO_VLAD/l9_value_c128/Oxford_25m/dino_vits8,0.492146597,Value
+DINO_VLAD/l9_token_c128/Oxford_25m/dino_vits8,0.486910995,Token

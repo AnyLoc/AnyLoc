@@ -10,6 +10,7 @@ def read_csv(filename):
     data = {}
     data['ViT Layer Number'] = np.array(df['desc_layer'])
     data['Recall@1'] = np.array(df['R@1'])*100
+    data['Model'] = df['model_type']
     return data
 
 def plot_vit_ablation(recalls, color_dict, output_path):
@@ -41,13 +42,16 @@ def load_data():
     recalls = {}
     recalls['Baidu Mall'] = []
     recalls['Oxford'] = []
-    for vit_idx, size in enumerate(['S', 'B', 'L', 'G']):
-        csv_path = f'./data/ablations/vit_and_layer/dinov2_{size}14_oxford.csv'
-        data = read_csv(csv_path)
-        recalls['Oxford'].append(data['Recall@1'][best_layers[vit_idx]])
-        csv_path = f'./data/ablations/vit_and_layer/dinov2_{size}14_baidu.csv'
-        data = read_csv(csv_path)
-        recalls['Baidu Mall'].append(data['Recall@1'][best_layers[vit_idx]])
+    oxford_csv_path = './data/ablations/vit_and_layer/dinov2_vit_oxford.csv'
+    oxford_data = read_csv(oxford_csv_path)
+    baidu_csv_path = './data/ablations/vit_and_layer/dinov2_vit_baidu.csv'
+    baidu_data = read_csv(baidu_csv_path)
+    for vit_idx, size in enumerate(['s', 'b', 'l', 'g']):
+        model_name = f'dinov2_vit{size}14'
+        oxford_idx = np.where(oxford_data['Model'] == model_name)[0][0]
+        baidu_idx = np.where(baidu_data['Model'] == model_name)[0][0]
+        recalls['Oxford'].append(oxford_data['Recall@1'][oxford_idx])
+        recalls['Baidu Mall'].append(baidu_data['Recall@1'][baidu_idx])
     return recalls
 
 if __name__ == '__main__':

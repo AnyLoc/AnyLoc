@@ -1,0 +1,5 @@
+"Name","R@1","model_type","desc_layer"
+"DINO_V2_VLAD/l31_value_c32/baidu_datasets/dinov2_vitg14","0.7150959860383944","dinov2_vitg14","31"
+"DINO_V2_VLAD/l20_value_c32/baidu_datasets/dinov2_vitl14","0.7037521815008726","dinov2_vitl14","20"
+"DINO_V2_VLAD/l10_value_c32/baidu_datasets/dinov2_vitb14","0.7020069808027923","dinov2_vitb14","10"
+"DINO_V2_VLAD/l10_value_c32/baidu_datasets/dinov2_vits14","0.6422338568935427","dinov2_vits14","10"

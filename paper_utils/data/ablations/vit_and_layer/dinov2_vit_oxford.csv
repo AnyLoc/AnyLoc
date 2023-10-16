@@ -1,0 +1,5 @@
+"Name","R@1","model_type","desc_layer"
+"DINO_V2_VLAD/l20_value_c32/Oxford_25m/dinov2_vitl14","0.9581151832460733","dinov2_vitl14","20"
+"DINO_V2_VLAD/l31_value_c32/Oxford_25m/dinov2_vitg14","0.9476439790575916","dinov2_vitg14","31"
+"DINO_V2_VLAD/l10_value_c32/Oxford_25m/dinov2_vitb14","0.7486910994764397","dinov2_vitb14","10"
+"DINO_V2_VLAD/l10_value_c32/Oxford_25m/dinov2_vits14","0.6701570680628273","dinov2_vits14","10"

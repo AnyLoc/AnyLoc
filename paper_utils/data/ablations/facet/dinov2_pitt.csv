@@ -1,0 +1,5 @@
+Name,R@1,Facet
+DINO_V2_VLAD/l31_value_c32/pitts30k/dinov2_vitg14,0.852112676,Value
+DINO_V2_VLAD/l31_token_c32/pitts30k/dinov2_vitg14,0.846684272,Token
+DINO_V2_VLAD/l31_key_c32/pitts30k/dinov2_vitg14,0.806191315,Key
+DINO_V2_VLAD/l31_query_c32/pitts30k/dinov2_vitg14,0.80560446,Query

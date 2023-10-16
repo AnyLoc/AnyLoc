@@ -1,5 +1,5 @@
-"Name","R@1",Facet
-"DINO_V2_VLAD/l31_query_c32/Oxford/dinov2_vitg14","0.9476439790575916",Query
-"DINO_V2_VLAD/l31_value_c32/Oxford/dinov2_vitg14","0.9162303664921466",Value
-"DINO_V2_VLAD/l31_token_c32/Oxford/dinov2_vitg14","0.9109947643979056",Token
-"DINO_V2_VLAD/l31_key_c32/Oxford/dinov2_vitg14","0.8952879581151832",Key
+Name,R@1,Facet
+DINO_V2_VLAD/l31_query_c32/Oxford_25m/dinov2_vitg14,0.968586387,Query
+DINO_V2_VLAD/l31_key_c32/Oxford_25m/dinov2_vitg14,0.947643979,Key
+DINO_V2_VLAD/l31_value_c32/Oxford_25m/dinov2_vitg14,0.947643979,Value
+DINO_V2_VLAD/l31_token_c32/Oxford_25m/dinov2_vitg14,0.942408377,Token
