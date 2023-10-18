@@ -82,6 +82,10 @@ class LocalArgs:
         Dimensionality reduction for global descriptors. If None, no 
         PCA is used.
     """
+    pca_whitening: bool = True
+    """
+        Whitening for PCA. Only when `pca_dim_reduce` is not None.
+    """
     # Number of clusters for VLAD
     num_clusters: int = 8
     # Layer for extracting Dino feature (descriptors)
@@ -113,6 +117,7 @@ class LocalArgs:
     vlad_soft_temp: float = 1.0
     # Caching configuration
     cache_vlad_descs: bool = False
+
 
 # %%
 # ---------------- Functions ----------------
@@ -322,6 +327,8 @@ def main(largs: LocalArgs):
                             largs.data_split)
     elif ds_name=="Oxford":
         vpr_ds = Oxford(ds_dir)
+    elif ds_name=="Oxford_25m":
+        vpr_ds = Oxford(ds_dir, override_dist=25)
     elif ds_name=="gardens":
         vpr_ds = Gardens(largs.bd_args,ds_dir,ds_name,largs.data_split)
     elif ds_name.startswith("Tartan_GNSS"):
@@ -355,8 +362,8 @@ def main(largs: LocalArgs):
         print(f"Reducing from {n_original} to {n_down} dimensions")
         down_db_vlads, down_qu_vlads = reduce_pca(
                 db_vlads.cpu().numpy(), qu_vlads.cpu().numpy(), 
-                n_down)
-        desc_dim = n_down
+                n_down, whitening=largs.pca_whitening)
+        vlad_dim = n_down
         # Technically, they aren't VLADs now, but compatibility :)
         db_vlads = norm_descs(down_db_vlads)
         qu_vlads = norm_descs(down_qu_vlads)

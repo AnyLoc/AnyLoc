@@ -132,6 +132,18 @@ class LocalArgs:
     show_plot: bool = True
     # Directory where the npy descriptors are stored
     desc_dir: Path = "./data"
+    # If True, the database are with high alpha (bold) - plotting only
+    fit_db_tf_qu: bool = False
+    """
+        If True, then after the tSNE projection, the database 
+        descriptors are with alpha = 1.0 (opaque/bold) and query
+        descriptors are with alpha = 0.5 (semi-transparent).
+        Note that both database and query are used in the tSNE 
+        projection (as tSNE is a non-parameteric projection). This
+        argument is largely to maintain consistency with the PCA 
+        codebase.
+        Note: seg_select = "both" if this is True.
+    """
 
 
 # %%
@@ -185,8 +197,11 @@ def load_descs(largs: LocalArgs, verbose: bool=True):
         d_np = d_np[db_repr_samples]
         res["data"][ds_name] = {
             "indices": db_repr_samples.tolist(),
-            "descriptors": d_np
+            "descriptors": d_np,
+            "num_db": int(vpr_ds.database_num),
         }
+    # Add timestamp
+    res["time"] = str(time.strftime(f"%Y_%m_%d_%H_%M_%S"))
     # Return
     return res
 
@@ -214,6 +229,24 @@ def tsne_project(largs: LocalArgs, res: dict):
     for db in labels_db:
         descs_db[db] = desc_2d[i:i+labels_db[db], :]
         i += labels_db[db]
+    # TODO: Add code here to deal with database and query split
+    if largs.fit_db_tf_qu:
+        # Filter based on index
+        res_descs_db = {
+            "database": {},
+            "queries": {}
+        }
+        for db in descs_db:
+            # All indices and tSNE points
+            db_inds = np.array(res["data"][db]["indices"])
+            db_tsne = descs_db[db]  # [(n_db + n_qu), 2] t-SNE points
+            # Number of database images
+            num_db = res["data"][db]["num_db"]
+            db_is = db_inds < num_db
+            qu_is = np.logical_not(db_is)
+            res_descs_db["database"][db] = db_tsne[db_is, :]
+            res_descs_db["queries"][db] = db_tsne[qu_is, :]
+        descs_db = res_descs_db
     return descs_db
 
 
@@ -248,11 +281,25 @@ def plot_tsne(largs: LocalArgs, descs_db: dict):
         "eiffel": "x",
         "VPAir": "d"
     }
+    qu_alphas = 0.5
+    # List of datasets being used
+    if largs.fit_db_tf_qu:
+        use_ds = list(descs_db["database"])
+    else:
+        use_ds = list(descs_db)
     # Plot figure
     plt.figure()
-    for db in descs_db:
-        plt.scatter(descs_db[db][:, 0], descs_db[db][:, 1], label=db, 
-                c=db_colors[db], marker=db_markers[db])
+    for db in use_ds:
+        if largs.fit_db_tf_qu:
+            plt.scatter(descs_db["database"][db][:, 0], 
+                    descs_db["database"][db][:, 1],
+                    label=db, c=db_colors[db], marker=db_markers[db])
+            plt.scatter(descs_db["queries"][db][:, 0],
+                    descs_db["queries"][db][:, 1], alpha=qu_alphas,
+                    c=db_colors[db], marker=db_markers[db])
+        else:
+            plt.scatter(descs_db[db][:, 0], descs_db[db][:, 1], 
+                    label=db, c=db_colors[db], marker=db_markers[db])
     plt.legend(bbox_to_anchor=(0.5, -0.1), loc='upper center', ncol=3)
     plt.xticks([])
     plt.yticks([])

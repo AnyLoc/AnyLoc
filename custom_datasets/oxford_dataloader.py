@@ -81,7 +81,7 @@ def parse_dbStruct(path):
             posDistSqThr)
 
 class Oxford(torch.utils.data.Dataset, CustomDataset):
-    def __init__(self,datasets_folder=prog_args.data_vg_dir,dataset_name="Oxford",split="train", input_transform=True, onlyDB=False,use_mixVPR=False,use_SAM=False):
+    def __init__(self,datasets_folder=prog_args.data_vg_dir,dataset_name="Oxford",split="train", override_dist=None, input_transform=True, onlyDB=False,use_mixVPR=False,use_SAM=False):
         super().__init__()
 
         self.use_mixVPR = use_mixVPR
@@ -96,6 +96,10 @@ class Oxford(torch.utils.data.Dataset, CustomDataset):
             self.input_transform = False
         
         self.dbStruct = parse_dbStruct(structFile)
+        if override_dist is not None:   # Override localization radius
+            self.loc_rad = override_dist
+        else:
+            self.loc_rad = self.dbStruct.posDistThr # From file
         self.images = [join(root_dir, dbIm.replace(' ','')) for dbIm in self.dbStruct.dbImage]
             
         if not onlyDB:
@@ -145,7 +149,7 @@ class Oxford(torch.utils.data.Dataset, CustomDataset):
             knn.fit(self.dbStruct.locDb)
 
             self.distances, self.soft_positives_per_query = knn.radius_neighbors(self.dbStruct.locQ,
-                    radius=self.dbStruct.posDistThr)
+                    radius=self.loc_rad)
 
         return self.soft_positives_per_query
 
@@ -157,6 +161,6 @@ class Oxford(torch.utils.data.Dataset, CustomDataset):
             knn.fit(self.dbStruct.locDb)
 
             self.distances, self.soft_positives_per_db = knn.radius_neighbors(self.dbStruct.locDb,
-                    radius=self.dbStruct.posDistThr)
+                    radius=self.loc_rad)
 
         return self.soft_positives_per_db

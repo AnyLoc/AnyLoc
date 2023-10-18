@@ -199,6 +199,15 @@ class LocalArgs:
         To remove a dataset from here, set its value to 0 (it'll be
         dropped when loading VLAD).
     """
+    # Save Database and Query VLAD descriptors (final)
+    save_vlad_descs: Optional[Path] = None
+    """
+        Internal use only (don't set normally). Save the database and
+        query VLAD descriptors to this folder. The file name is
+        `db-<prog.vg_dataset_name>.pt` (for database VLADs) and 
+        `qu-<prog.vg_dataset_name>.pt` (for query VLADs).
+        This is independent of the caching mechanisms.
+    """
 
 
 # %%
@@ -248,6 +257,8 @@ class GlobalVLADVocabularyDataset:
                         data_split)
             elif ds_name=="Oxford":
                 vpr_ds = Oxford(ds_dir)
+            elif ds_name=="Oxford_25m": # This is actually useless!
+                vpr_ds = Oxford(ds_dir, override_dist=25)
             elif ds_name=="gardens":
                 vpr_ds = Gardens(bd_args, ds_dir, ds_name, data_split)
             elif ds_name.startswith("Tartan_GNSS"):
@@ -492,6 +503,8 @@ def main(largs: LocalArgs):
                             largs.data_split)
     elif ds_name=="Oxford":
         vpr_ds = Oxford(ds_dir)
+    elif ds_name=="Oxford_25m":
+        vpr_ds = Oxford(ds_dir, override_dist=25)
     elif ds_name=="gardens":
         vpr_ds = Gardens(largs.bd_args,ds_dir,ds_name,largs.data_split)
     elif ds_name.startswith("Tartan_GNSS"):
@@ -516,6 +529,23 @@ def main(largs: LocalArgs):
         db_vlads, qu_vlads = build_vlads_fm_global(largs, vpr_ds, 
                 glob_ds)
     print("--------- Generated VLADs ---------")
+    
+    # If saving (for internal debugging only)
+    if largs.save_vlad_descs is not None:
+        print("------ Saving VLAD descriptors ------")
+        print(f"DB VLAD shape: {db_vlads.shape}")
+        print(f"QU VLAD shape: {qu_vlads.shape}")
+        save_dir = os.path.realpath(os.path.expanduser(
+                largs.save_vlad_descs))
+        if not os.path.isdir(save_dir):
+            os.makedirs(save_dir)
+            print(f"Created directory: {save_dir}")
+        else:
+            print(f"Save directory already exists: {save_dir}")
+        # Save files
+        torch.save(db_vlads.cpu(), f"{save_dir}/db-{ds_name}.pt")
+        torch.save(qu_vlads.cpu(), f"{save_dir}/qu-{ds_name}.pt")
+        print(f"Saved files [db,qu]-{ds_name}.pt in {save_dir}")
     
     print("----- Calculating recalls through top-k matching -----")
     dists, indices, recalls = get_top_k_recall(largs.top_k_vals, 

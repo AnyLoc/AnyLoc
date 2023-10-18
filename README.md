@@ -3,14 +3,16 @@
 [![License: BSD-3](https://img.shields.io/badge/License-BSD--3-yellow.svg?style=flat-square)](https://opensource.org/license/BSD-3-clause/)
 [![stars](https://img.shields.io/github/stars/AnyLoc/AnyLoc?style=social)](https://github.com/AnyLoc/AnyLoc/stargazers)
 [![arXiv](https://img.shields.io/badge/arXiv-2308.00688-b31b1b.svg)](https://arxiv.org/abs/2308.00688)
-[![githubio](https://img.shields.io/badge/GitHub.io-Anyloc-blue?logo=Github)](https://anyloc.github.io/)
+[![githubio](https://img.shields.io/badge/-anyloc.github.io-blue?logo=Github&color=grey)](https://anyloc.github.io/)
 [![github](https://img.shields.io/badge/GitHub-Anyloc%2FAnyloc-blue?logo=Github)](https://github.com/AnyLoc/AnyLoc)
 [![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=flat&logo=youtube&logoColor=white)](https://youtu.be/ITo8rMInatk)
 [![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20HF%20Space-AnyLoc-blue)](https://huggingface.co/spaces/TheProjectsGuy/AnyLoc)
 [![Open In Colab: Global Descriptors](https://img.shields.io/badge/IIITH--OneDrive-Global%20Descriptors-blue?logo=googlecolab&label=&labelColor=grey)](https://colab.research.google.com/github/AnyLoc/AnyLoc/blob/main/demo/anyloc_vlad_generate_colab.ipynb)
 [![Open In Colab: Cluster visualizations](https://img.shields.io/badge/IIITH--OneDrive-Cluster%20Visualizations-blue?logo=googlecolab&label=&labelColor=grey)](https://colab.research.google.com/github/AnyLoc/AnyLoc/blob/main/demo/images_vlad_clusters.ipynb)
-[![Public Release on IIITH-OneDrive](https://img.shields.io/badge/IIITH--OneDrive-Public%20Material-%23D83B01?logo=microsoftonedrive&logoColor=%230078D4&label=&labelColor=grey)](https://iiitaphyd-my.sharepoint.com/:f:/g/personal/avneesh_mishra_research_iiit_ac_in/Ek6y97czRqRIgIrd4Yj2_aYBz02Nkvmdbh_9Ec_-HgMSHw)
-[![Hugging Face Paper](https://img.shields.io/badge/%F0%9F%A4%97-HF--Paper-blue)](https://huggingface.co/papers/2308.06595)
+[![Public Release on IIITH-OneDrive](https://img.shields.io/badge/IIITH--OneDrive-Public%20Material-%23D83B01?logo=microsoftonedrive&logoColor=%230078D4&label=&labelColor=grey)][public-release-link]
+[![Hugging Face Paper](https://img.shields.io/badge/%F0%9F%A4%97-HF--Paper-blue)](https://huggingface.co/papers/2308.00688)
+
+[public-release-link]: https://iiitaphyd-my.sharepoint.com/:f:/g/personal/robotics_iiit_ac_in/EtpBLzBFfqdHljqQMnm6xdoBzW-4KFLXieXDVN4vPg84Lg?e=BP6ZW1
 
 ## Table of contents
 
@@ -18,6 +20,7 @@
     - [Table of contents](#table-of-contents)
     - [Contents](#contents)
         - [Included Repositories](#included-repositories)
+        - [Included Datasets](#included-datasets)
     - [PapersWithCode Badges](#paperswithcode-badges)
     - [Getting Started](#getting-started)
         - [Using the SOTA: AnyLoc-VLAD-DINOv2](#using-the-sota-anyloc-vlad-dinov2)
@@ -62,6 +65,32 @@ Includes the following repositories (currently not submodules) as subfolders.
 | [datasets-vg](./datasets-vg/) | [gmberton/datasets_vg](https://github.com/gmberton/datasets_vg) | 2023-02-13 | For dataset download and formatting |
 | [CosPlace](./CosPlace/) | [gmberton/CosPlace](https://github.com/gmberton/CosPlace) | 2023-03-20 | Baseline Comparisons |
 
+### Included Datasets
+
+We release all the benchmarking datasets in our [public release][public-release-link].
+
+1. Download the `.tar.gz` files from [here][public-release-link] > `Datasets-All` (for the datasets you want to use)
+2. Unzip them using `tar -xvzf ./NAME.tar.gz`. They should unzip into a directory with `NAME`.
+
+    - If you're using our benchmarking [scripts](./scripts/), this directory where you're storing the datasets is the parameter `--prog.data-vg-dir` (in most scripts).
+    - See [Dataset Setup](#dataset-setup) for detailed information (including how the data directory structure should look after unzipping)
+
+We thank the following sources for the rich datasets
+
+1. Baidu Autonomous Driving Business Unit for the Baidu Mall dataset present in `baidu_datasets.tar.gz`
+2. Queensland University of Technology for the Gardens Point dataset present in `gardens.tar.gz`
+3. York University for the 17 Places dataset present in `17places.tar.gz`
+4. Tokyo Institute of Technology, INRIA, and CTU Prague for the Pitts-30k dataset present in `pitts30k.tar.gz`
+5. Queensland University of Technology for the St. Lucia dataset present in `st_lucia.tar.gz`
+6. University of Oxford for the Oxford dataset present in `Oxford_Robotcar.tar.gz`
+7. AirLab at CMU for the Hawkins dataset present in `hawkins_long_corridor.tar.gz`, the Laurel Caverns dataset present in `laurel_caverns.tar.gz`, and the Nardo Air dataset present in `test_40_midref_rot0.tar.gz` (not rotated) and `test_40_midref_rot90.tar.gz` (rotated).
+8. Fraunhofer FKIE and TU Munich for the VP-Air dataset present in `VPAir.tar.gz`
+9. Ifremer and University of Toulon for the Mid-Atlantic Ridge dataset present in `eiffel.tar.gz`
+
+Most of the contents of the zipped folders are from the original sources. We generate the ground truth for some of the datasets as `.npy` files; see [this issue](https://github.com/AnyLoc/AnyLoc/issues/8#issuecomment-1712450557) for more information.
+
+The copyright of each dataset is held by the original sources.
+
 ## PapersWithCode Badges
 
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/anyloc-towards-universal-visual-place/visual-place-recognition-on-17-places)](https://paperswithcode.com/sota/visual-place-recognition-on-17-places?p=anyloc-towards-universal-visual-place)
@@ -88,14 +117,17 @@ git clone https://github.com/AnyLoc/AnyLoc.git
 cd AnyLoc
 ```
 
-Set up the conda environment
+Set up the conda environment (you can also use `mamba` instead of `conda`; the script will automatically detect it)
 
 ```bash
-conda create -n anyloc python=3.8
+conda create -n anyloc python=3.9
 conda activate anyloc
 bash ./setup_conda.sh
+# If you want to install the developer tools as well
+bash ./setup_conda.sh --dev
 ```
 
+The setup takes about 11 GB of disk space.
 You can also use an existing conda environment, say `vl-vpr`, by doing
 
 ```bash
@@ -104,7 +136,7 @@ bash ./setup_conda.sh vl-vpr
 
 Note the following:
 
-- All our public release files can be found [here](https://iiitaphyd-my.sharepoint.com/:f:/g/personal/avneesh_mishra_research_iiit_ac_in/Ek6y97czRqRIgIrd4Yj2_aYBz02Nkvmdbh_9Ec_-HgMSHw).
+- All our public release files can be found in our [public release][public-release-link].
     - If the conda environment setup is taking time, you could just unzip `conda-env.tar.gz` (GB) in your `~/anaconda3/envs` folder (but compatibility is not guaranteed).
 - The `./scripts` folder is for validating our results and seeing the main scripts. Most applications are in the `./demo` folder. See the list of [demos](./demo/) before running anything.
 - If you're running something in the `./scripts` folder, run it with `pwd` in this (repository) folder. For example, python scripts are run as `python ./scripts/<script>.py` and bash scripts are run as `bash ./scripts/<script>.sh`. For the demos and other baselines, you should `cd` into respective folders.
@@ -204,9 +236,11 @@ desc = extractor.extract_descriptors(img,
 
 ## Validating the Results
 
-You don't need to read further if you're not experimentally validating the entire results (enjoy the [demos](./demo/) instead). The following sections are for the curious minds who want to reproduce the results.
+You don't need to read further if you're not experimentally validating the entire results (enjoy the [demos](./demo/) instead) or building on this repository from source.
 
-> [Note to/for contributors](CONTRIBUTING.md)
+The following sections are for the curious minds who want to reproduce the results.
+
+> Note to/for contributors: Please follow [contributing guidelines](./CONTRIBUTING.md). This is mainly for developers/authors who'll be pushing to this repository.
 
 All the runs were done on a machine with the following specifications:
 
@@ -217,12 +251,12 @@ All the runs were done on a machine with the following specifications:
     - Driver Version (NVIDIA-SMI): 570.47.03
     - CUDA (SMI): 11.6
 
-We can use only one GPU; however, some experiments (with large datasets) might need all of the CPU RAM (for efficient/fast nearest neighbor search). Ideally, a 16 GB GPU should also work.
+We use only one GPU; however, some experiments (with large datasets) might need all of the CPU RAM (for efficient/fast nearest neighbor search). Ideally, a 16 GB GPU should also work.
 
 Do the following
 
 1. Clone the repository and setup the NVIDIA NGC container (run everything inside it)
-2. Setup the datasets (download, format, and unzip them)
+2. Setup the datasets (download, format, and extract them)
 3. Run the script you want to test from [scripts](./scripts/) folder
 
 Start by cloning/setting up the repository
@@ -290,7 +324,7 @@ python ./<script>.py
 
 ### Dataset Setup
 
-> **Datasets Note**: Some datasets are under review (other works) and will be updated soon. See the `Datasets-All` folder in out public material (for `.tar.gz` files).
+> **Datasets Note**: See the `Datasets-All` folder in our [public material][public-release-link] (for `.tar.gz` files). Also see [included datasets](#included-datasets).
 
 Set them up in a folder with sufficient space
 
@@ -298,7 +332,7 @@ Set them up in a folder with sufficient space
 mkdir -p /scratch/$USER/vl-vpr/datasets && cd $_
 ```
 
-Download (and unzip) the datasets from here into this folder. Link this folder (for easy access form this repository)
+Download (and unzip) the datasets from [here][public-release-link] (`Datasets-All` folder) into this folder. Link this folder (for easy access form this repository)
 
 ```bash
 cd ~/Documents/vl-vpr/
@@ -431,8 +465,7 @@ Original dataset webpages:
 - [Baidu Mall](https://openaccess.thecvf.com/content_cvpr_2017/html/Sun_A_Dataset_for_CVPR_2017_paper.html) (zipped on [dropbox from authors](https://www.dropbox.com/s/4mksiwkxb7t4a8a/IDL_dataset_cvpr17_3852.zip?dl=0))
 - [VPAir](https://github.com/AerVisLoc/vpair)
 - [Mid-Atlantic Ridge](https://www.seanoe.org/data/00680/79218/)
-
-> **Note**: We're in the process of releasing `Nardo-Air` (Tartan Air), `Laurel Caverns`, and `Hawkins` (part of SubT-MRS). Please stay tuned!
+- [Hawkins, Laurel Caverns, and Nardo Air](https://drive.google.com/drive/u/1/folders/1CweSoePAxo7znoHMJmy5Ntn3CJqQrZ_u)
 
 Some datasets can be found at other places
 

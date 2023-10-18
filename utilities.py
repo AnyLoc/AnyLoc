@@ -521,7 +521,8 @@ def seed_everything(seed=42):
 # PCA dimensionality reduction
 def reduce_pca(train_descs: np.ndarray, test_descs: np.ndarray, 
             lower_dim:int, low_factor:float=0.0, fallback:int=256,
-            svd_solver:str='full') -> Tuple[np.ndarray, np.ndarray]:
+            svd_solver:str='full', whitening:bool=False) \
+                -> Tuple[np.ndarray, np.ndarray]:
     """
         Reduce the dimensionality of the training and test dataset
         using Principal Component Analysis (implementation from 
@@ -547,6 +548,8 @@ def reduce_pca(train_descs: np.ndarray, test_descs: np.ndarray,
                         reduced using `lower_dim`. This must be higher
                         than `lower_dim` value (for it to make sense).
         - svd_solver:   The solver for scipy PCA module.
+        - whitening:    Whether to apply whitening (after PCA). 
+                        Handled by sklearn. Use only when low_factor=0
         
         Returns:
         - out_train_descs:  Training descriptors: [n_tr, l_dim]
@@ -556,7 +559,7 @@ def reduce_pca(train_descs: np.ndarray, test_descs: np.ndarray,
     out_train_descs: np.ndarray = None
     out_test_descs: np.ndarray = None
     if low_factor == 0.0:   # Direct downsample
-        pca = PCA(lower_dim, svd_solver=svd_solver)
+        pca = PCA(lower_dim, svd_solver=svd_solver, whiten=whitening)
         out_train_descs = pca.fit_transform(train_descs)
         out_test_descs = pca.transform(test_descs)
     else:

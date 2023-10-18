@@ -29,6 +29,7 @@ if lib_path not in sys.path:
 else:
     print(f'Library path {lib_path} already in PYTHONPATH')
 
+from dvgl_benchmark.datasets_ws import BaseDataset
 from custom_datasets.baidu_dataloader import Baidu_Dataset
 from custom_datasets.oxford_dataloader import Oxford
 from custom_datasets.gardens import Gardens
@@ -38,6 +39,7 @@ from custom_datasets.vpair_dataloader import VPAir
 from custom_datasets.laurel_dataloader import Laurel
 from custom_datasets.eiffel_dataloader import Eiffel
 from custom_datasets.vpair_distractor_dataloader import VPAir_Distractor
+from configs import base_dataset_args
 import wandb
 import time
 
@@ -89,6 +91,8 @@ if args.dataset_name=='baidu_datasets':
     test_ds = Baidu_Dataset(args,args.dataset_folder,args.dataset_name)
 elif args.dataset_name=="Oxford":
     test_ds = Oxford(args.dataset_folder)
+elif args.dataset_name=="Oxford_25m":
+    test_ds = Oxford(args.dataset_folder, override_dist=25)
 elif args.dataset_name=="gardens":
     test_ds = Gardens(args,args.dataset_folder,args.dataset_name)
 elif args.dataset_name.startswith("hawkins"):
@@ -103,8 +107,9 @@ elif args.dataset_name.startswith("Tartan_GNSS"):
 elif args.dataset_name=="eiffel":
     test_ds = Eiffel(args,args.dataset_folder,args.dataset_name)
 else:
-    test_ds = TestDataset(args.test_set_folder, queries_folder=queries_folder,
-                    positive_dist_threshold=args.positive_dist_threshold,resize=args.resize)
+    # test_ds = TestDataset(args.test_set_folder, queries_folder=queries_folder,
+    #                 positive_dist_threshold=args.positive_dist_threshold,resize=args.resize)
+    test_ds = BaseDataset(base_dataset_args, args.dataset_folder, args.dataset_name, "test")
 
 if args.dataset_name=="VPAir":
     recalls, recalls_str = test.test(args, test_ds, model, test_distractor_ds)

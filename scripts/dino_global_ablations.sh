@@ -18,11 +18,12 @@ export CUDA_VISIBLE_DEVICES=$gpu
 # datasets=("Oxford" "baidu_datasets")
 # datasets=("VPAir")
 # datasets=("Tartan_GNSS_rotated" "Tartan_GNSS_notrotated" "Tartan_GNSS_test_rotated" "Tartan_GNSS_test_notrotated" "hawkins" "laurel_caverns" "eiffel" "VPAir")  # Use only "test" for Tartan
-datasets=("17places")
+datasets=("Oxford_25m")
 # WandB parameters
 wandb_entity="vpr-vl"
 # wandb_project="Paper_Structured_Benchmarks"
-wandb_project="Paper_Unstructured_Benchmarks"
+# wandb_project="Paper_Unstructured_Benchmarks"
+wandb_project="Rebuttal_Experiments"
 
 
 # ----------- Main Experiment Code -----------

@@ -98,6 +98,13 @@ class LocalArgs:
         integer (fractional will give complex numbers when applied to
         negative numbers as power).
     """
+    # Do GeM element-by-element (only if gem_use_abs = False)
+    gem_elem_by_elem: bool = False
+    """
+        Do the GeM element-by-element (only if `gem_use_abs` = False).
+        This can be done to prevent the RAM use from exploding for 
+        large datasets.
+    """
     # GeM Pooling Parameter
     gem_p: float = 3
 
@@ -152,9 +159,18 @@ def build_gems(largs: LocalArgs, vpr_ds: BaseDataset,
             g_res = torch.mean(torch.abs(patch_descs)**largs.gem_p, 
                     dim=-2) ** (1/largs.gem_p)
         else:
-            x = torch.mean(patch_descs**largs.gem_p, dim=-2)
-            g_res = x.to(torch.complex64) ** (1/largs.gem_p)
-            g_res = torch.abs(g_res) * torch.sign(x)
+            if largs.gem_elem_by_elem:
+                g_res_all = []
+                for patch_desc in patch_descs:
+                    x = torch.mean(patch_desc**largs.gem_p, dim=-2)
+                    g_res = x.to(torch.complex64) ** (1/largs.gem_p)
+                    g_res = torch.abs(g_res) * torch.sign(x)
+                    g_res_all.append(g_res)
+                g_res = torch.stack(g_res_all)
+            else:
+                x = torch.mean(patch_descs**largs.gem_p, dim=-2)
+                g_res = x.to(torch.complex64) ** (1/largs.gem_p)
+                g_res = torch.abs(g_res) * torch.sign(x)
         return g_res    # [N, d_dim]
     
     # Get the database descriptors
@@ -218,6 +234,8 @@ def main(largs: LocalArgs):
                             largs.data_split)
     elif ds_name=="Oxford":
         vpr_ds = Oxford(ds_dir)
+    elif ds_name=="Oxford_25m":
+        vpr_ds = Oxford(ds_dir, override_dist=25)
     elif ds_name=="gardens":
         vpr_ds = Gardens(largs.bd_args,ds_dir,ds_name,largs.data_split)
     else:

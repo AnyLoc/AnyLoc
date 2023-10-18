@@ -16,13 +16,14 @@ dino_models=("dinov2_vitg14")
 # datasets=("Oxford" "gardens" "17places" "baidu_datasets" "st_lucia" "pitts30k")
 # datasets=("VPAir")
 # datasets=("Tartan_GNSS_rotated" "Tartan_GNSS_notrotated" "Tartan_GNSS_test_rotated" "Tartan_GNSS_test_notrotated" "hawkins" "laurel_caverns" "eiffel" "VPAir")  # Use only "test" for Tartan
-datasets=("17places")
+datasets=("Oxford_25m")
 gpu=${1:-0} # GPU
 export CUDA_VISIBLE_DEVICES=$gpu
 # WandB parameters
 wandb_entity="vpr-vl"
 # wandb_project="Paper_Structured_Benchmarks"
-wandb_project="Paper_Unstructured_Benchmarks"
+# wandb_project="Paper_Unstructured_Benchmarks"
+wandb_project="Rebuttal_Experiments"
 
 
 # ----------- Main Experiment Code -----------

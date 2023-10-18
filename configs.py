@@ -76,7 +76,7 @@ class ProgArgs:
         - Jay: '/home/jay/Downloads/vl_vpr_datasets'
     """
     # Default dataset name for VPR
-    vg_dataset_name: Literal["st_lucia", "pitts30k", "17places", "nordland", "tokyo247", "baidu_datasets", "Oxford", "gardens", "hawkins","hawkins_long_corridor", "global", "VPAir", "Tartan_GNSS_rotated", "Tartan_GNSS_notrotated", "Tartan_GNSS_test_notrotated", "Tartan_GNSS_test_rotated",  "laurel_caverns","eiffel"] = "hawkins_long_corridor"
+    vg_dataset_name: Literal["st_lucia", "pitts30k", "17places", "nordland", "tokyo247", "baidu_datasets", "Oxford", "Oxford_25m", "gardens", "hawkins","hawkins_long_corridor", "global", "VPAir", "Tartan_GNSS_rotated", "Tartan_GNSS_notrotated", "Tartan_GNSS_test_notrotated", "Tartan_GNSS_test_rotated",  "laurel_caverns","eiffel"] = "hawkins_long_corridor"
     # Use wandb (False = No WandB)
     use_wandb: bool = False
     # WandB project name

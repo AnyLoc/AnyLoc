@@ -560,6 +560,8 @@ def main(largs: LocalArgs):
         vpr_ds = Baidu_Dataset(largs.bd_args,datasets_dir,dataset_name,largs.data_split,use_mixVPR=True)
     elif dataset_name=="Oxford":
         vpr_ds = Oxford(datasets_dir,use_mixVPR=True)
+    elif dataset_name=="Oxford_25m":
+        vpr_ds = Oxford(datasets_dir,use_mixVPR=True,override_dist=25)
     elif dataset_name=="gardens":
         vpr_ds = Gardens(largs.bd_args,datasets_dir,dataset_name,largs.data_split,use_mixVPR=True)    
     elif dataset_name.startswith("hawkins"):

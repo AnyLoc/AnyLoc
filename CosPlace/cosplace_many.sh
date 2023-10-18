@@ -1,4 +1,4 @@
-# Run NetVLAD VPR
+# Run CosPlace VPR
 #
 # Usage:
 #   bash ./cosplace_many.sh
@@ -22,12 +22,18 @@ cache_dir+="/CosPlace_runs"
 # Directory where the checkpoints are stored
 ckpts_dir="/home2/avneesh.mishra/Documents/vl-vpr/models"
 ckpts_dir+="/CosPlace"
-ckpt_backbone="ResNet101"
-ckpt_wandb_name="ResNet101_2048"
-ckpt_file="${ckpts_dir}/resnet101_2048.pth"
-# ckpt_backbone="ViT"
-# ckpt_wandb_name="ViT-B-16_768"
-# ckpt_file="${ckpts_dir}/vit_best_model.pth"
+
+# - (BEGIN) For the ResNet backbone -
+# ckpt_backbone="ResNet101"
+# ckpt_wandb_name="ResNet101_2048"
+# ckpt_file="${ckpts_dir}/resnet101_2048.pth"
+# - (END) For the ResNet backbone -
+# - (BEGIN) For the ViT backbone -
+ckpt_backbone="ViT"
+ckpt_wandb_name="ViT-B-16_768"
+ckpt_file="${ckpts_dir}/vit_best_model.pth"
+# - (END) For the ViT backbone -
+
 # Directory where the datasets are downloaded
 # data_vg_dir="/ocean/projects/cis220039p/shared/datasets/vpr/datasets_vg"
 data_vg_dir="/home2/avneesh.mishra/Documents/vl-vpr/datasets_vg/datasets"
@@ -40,14 +46,15 @@ export CUDA_VISIBLE_DEVICES=$gpu
 # datasets=("Tartan_GNSS_test_rotated" "Tartan_GNSS_test_notrotated")
 # datasets=("eiffel")
 # datasets=("VPAir")
-# datasets=("Oxford")
-datasets=("17places")
+# datasets=("pitts30k")
+datasets=("Oxford_25m")
+# datasets=("17places")
 # WandB parameters
 wandb_entity="vpr-vl"
 # wandb_project="Paper_Structured_Benchmarks"
 # wandb_project="Paper_Unstructured_Benchmarks"
-wandb_group="CosPlace_ViT"
-wandb_project="Ablations"
+# wandb_group="Oxford_25m"
+wandb_project="Rebuttal_Experiments"
 
 
 num_datasets=${#datasets[@]}
@@ -64,7 +71,7 @@ for dataset in ${datasets[*]}; do
     curr_run=$((curr_run+1))
     echo "Run: $curr_run/$total_runs"
     echo -ne "\e[0m"
-    # wandb_group="${dataset}"
+    wandb_group="${dataset}"
     wandb_name="CosPlace/${dataset}/$ckpt_wandb_name"
     python_cmd="python ./eval.py"
     python_cmd+=" --dataset_folder $data_vg_dir"

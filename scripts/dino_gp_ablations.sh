@@ -19,13 +19,15 @@ dino_layers=(9)
 gpu=${1:-0}
 export CUDA_VISIBLE_DEVICES=$gpu
 # datasets=("Oxford" "gardens" "17places" "baidu_datasets" "st_lucia" "pitts30k")
-datasets=("Oxford" "baidu_datasets")
+# datasets=("Oxford" "baidu_datasets")
+datasets=("Oxford_25m" "pitts30k")
 # dino_facets=("key" "query" "value" "token")
 dino_facets=("key")
 pooling_methods=("average" "max")
 # WandB parameters
 wandb_entity="vpr-vl"
-wandb_project="Paper_Dino_Ablations"
+# wandb_project="Paper_Dino_Ablations"
+wandb_project="Rebuttal_Experiments"
 
 # ----------- Main Experiment Code -----------
 num_datasets=${#datasets[@]}
@@ -79,7 +81,7 @@ for pool_method in ${pooling_methods[*]}; do
     python_cmd+=" --prog.cache-dir ${cache_dir}"
     python_cmd+=" --prog.data-vg-dir ${data_vg_dir}"
     python_cmd+=" --prog.vg-dataset-name ${dataset}"
-    python_cmd+=" --prog.use-wandb"
+    # python_cmd+=" --prog.use-wandb"
     python_cmd+=" --prog.wandb-proj ${wandb_project}"
     python_cmd+=" --prog.wandb-entity ${wandb_entity}"
     python_cmd+=" --prog.wandb-group ${wandb_group}"

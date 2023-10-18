@@ -103,12 +103,16 @@ def parse_arguments(is_training: bool = True):
         if args.dataset_name is not None:
             # handle vpr-bench datasets
             if args.dataset_name in ["17places"]:
-                args.dataset_folder = os.path.join(args.dataset_folder, args.dataset_name)
+                if args.dataset_folder is None:
+                    args.dataset_folder = os.path.join(args.dataset_folder, args.dataset_name)
                 args.test_set_folder = args.dataset_folder
             else:
-                args.dataset_folder = os.path.join(args.dataset_folder, args.dataset_name, 'images')
-                args.test_set_folder = os.path.join(args.dataset_folder, "test")
+                if args.dataset_folder is None:
+                    args.dataset_folder = os.path.join(args.dataset_folder, args.dataset_name, 'images')
+                # args.test_set_folder = os.path.join(args.dataset_folder, "test")
+                args.test_set_folder = args.dataset_folder
         if not os.path.exists(args.test_set_folder):
-            raise FileNotFoundError(f"Folder {args.test_set_folder} does not exist")
+            print(f"ERROR: Folder {args.test_set_folder} does not exist")
+            # raise FileNotFoundError(f"Folder {args.test_set_folder} does not exist")
         
         return args

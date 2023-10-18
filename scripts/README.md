@@ -1,5 +1,7 @@
 # Scripts for exploring foundation models based VPR
 
+> **Note** to end users: Scripts in this folder are for development purposes only. These aren't intended for all (unless you're developing on this work by cloning it). Most use cases are covered in much lighter [demo folder](./../demo/).
+
 ## Table of contents
 
 - [Scripts for exploring foundation models based VPR](#scripts-for-exploring-foundation-models-based-vpr)
@@ -10,6 +12,7 @@
         - [CLIP](#clip)
         - [CosPlace](#cosplace)
         - [Dataset Cluster Visualization](#dataset-cluster-visualization)
+        - [Miscellaneous](#miscellaneous)
         - [Bash Scripts](#bash-scripts)
 
 ## Contents
@@ -68,6 +71,15 @@ For the cluster projections of the datasets
 | 4 | [dino_v2_datasets_gem_tsne_clustering.py](./dino_v2_datasets_gem_tsne_clustering.py) | t-SNE clustering over GeM pooled DINOv2 ViT features |
 | 5 | [dino_v2_datasets_tsne_clustering.py](./dino_v2_datasets_tsne_clustering.py) | Dataset visualizations using t-SNE over DINOv2 ViT features (sub-sample all patches across all images) |
 
+### Miscellaneous
+
+Other scripts
+
+| S. No. | File | Description |
+| :----- | :--- | :---------- |
+| 1 | [joint_pca_project.py](./joint_pca_project.py) | Project a set of global descriptors (from the same domain) "jointly" (see script `__doc__` for more) |
+| 2 | [pca_downsample_experiment.py](./pca_downsample_experiment.py) | Load the downsampled points (most likely from [joint_pca_project.py](./joint_pca_project.py)) as global descriptors and run recall calculations. This script only runs recall calculations, taking global descriptors (everything else is logging for consistency). |
+
 ### Bash Scripts
 
 For bulk runs
@@ -87,3 +99,4 @@ For bulk runs
 | 11 | [dino_v2_gp_ablations.sh](./dino_v2_gp_ablations.sh) | Ablations for DINOv2 group pooling (max and average) over ViT features |
 | 12 | [dino_v2_vlad_ablations.sh](./dino_v2_vlad_ablations.sh) | Ablations for DINOv2 VLAD (ViT features) |
 | 13 | [dino_vlad_ablations.sh](./dino_vlad_ablations.sh) | DINO (v1) VLAD (ViT features) ablations |
+| 14 | [pca_downsample_experiment_ablation.sh](./pca_downsample_experiment_ablation.sh) | PCA downsampling ablations. Experimental use only. |

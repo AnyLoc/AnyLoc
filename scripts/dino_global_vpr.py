@@ -207,6 +207,8 @@ def main(largs: LocalArgs):
                             largs.data_split)
     elif ds_name=="Oxford":
         vpr_ds = Oxford(ds_dir)
+    elif ds_name=="Oxford_25m":
+        vpr_ds = Oxford(ds_dir, override_dist=25)
     elif ds_name=="gardens":
         vpr_ds = Gardens(largs.bd_args,ds_dir,ds_name,largs.data_split)
     elif ds_name.startswith("Tartan_GNSS"):

@@ -140,6 +140,8 @@ if args.dataset_name=='baidu_datasets':
     test_ds = Baidu_Dataset(args,args.datasets_folder,args.dataset_name)
 elif args.dataset_name=="Oxford":
     test_ds = Oxford(args.datasets_folder)
+elif args.dataset_name=="Oxford_25m":
+    test_ds = Oxford(args.datasets_folder, override_dist=25)
 elif args.dataset_name=="gardens":
     test_ds = Gardens(args,args.datasets_folder,args.dataset_name)
 elif args.dataset_name.startswith("hawkins"):

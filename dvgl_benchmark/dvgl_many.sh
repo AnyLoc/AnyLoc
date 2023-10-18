@@ -33,11 +33,12 @@ export CUDA_VISIBLE_DEVICES=$gpu
 # datasets=("Tartan_GNSS_rotated" "Tartan_GNSS_notrotated" "hawkins" "laurel_caverns")
 # datasets=("Tartan_GNSS_test_rotated" "Tartan_GNSS_test_notrotated")
 # datasets=("eiffel")
-datasets=("Oxford")
+datasets=("Oxford_25m")
 # WandB parameters
 wandb_entity="vpr-vl"
 # wandb_project="Paper_Structured_Benchmarks"
-wandb_project="Paper_Unstructured_Benchmarks"
+# wandb_project="Paper_Unstructured_Benchmarks"
+wandb_project="Rebuttal_Experiments"
 
 
 num_datasets=${#datasets[@]}
@@ -60,7 +61,7 @@ for dataset in ${datasets[*]}; do
     python_cmd+=" --datasets_folder $data_vg_dir"
     python_cmd+=" --resume $ckpt_file"
     python_cmd+=" --dataset_name $dataset"
-    python_cmd+=" --use_wandb"
+    # python_cmd+=" --use_wandb"
     python_cmd+=" --wandb_entity $wandb_entity"
     python_cmd+=" --wandb_proj $wandb_project"
     python_cmd+=" --wandb_group $wandb_group"
