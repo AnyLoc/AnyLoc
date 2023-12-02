@@ -1,11 +1,19 @@
 # Visual GeoLocalization Datasets
 
-Using these scripts you can download a number of visual geolocalization datasets.
-The datasets are downloaded and formatted using a standard format, suitable to be used by our soon-to-be open
-source benchmarking software, and their maps are automatically created.
-You can also find more information about our project in the dedicated [website](https://deep-vg-bench.herokuapp.com/).
+Using these scripts you can download a number of visual geolocalization datasets. This code was part of the CVPR 2022 [Deep Visual Geo-localization Benchmark](https://arxiv.org/abs/2204.03444), so if you use these scripts make sure to cite:
+```
+@inProceedings{Berton_CVPR_2022_benchmark,
+    author    = {Berton, Gabriele and Mereu, Riccardo and Trivigno, Gabriele and Masone, Carlo and
+                 Csurka, Gabriela and Sattler, Torsten and Caputo, Barbara},
+    title     = {Deep Visual Geo-localization Benchmark},
+    booktitle = {CVPR},
+    month     = {June},
+    year      = {2022},
+}
+```
 
-About the datasets formatting, the adopted convention is that the names of the files with the images are:
+The datasets are downloaded and formatted using a standard format, for which the metadata of the images are contained within the images filename.
+We adopt a convention so that the names of the files with the images are:
 
 ```txt
 @ UTM_easting @ UTM_northing @ UTM_zone_number @ UTM_zone_letter @ latitude @ longitude @ pano_id @ tile_num @ heading @ pitch @ roll @ height @ timestamp @ note @ extension
