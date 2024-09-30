@@ -73,11 +73,14 @@ function pip_install() {
 }
 
 # Ensure installation can happen
-if [ -x "$(command -v mamba)" ]; then   # If mamba found
-    echo_debug "Found mamba"
+if [ -x "$(command -v micromamba)" ]; then   # If micromamba found
+    echo_debug "Found micromamba"
+    exec_name="micromamba"
+elif [ -x "$(command -v mamba)" ]; then   # If mamba found
+    echo_debug "Found mamba (couldn't find micromamba)"
     exec_name="mamba"
 elif [ -x "$(command -v conda)" ]; then # If conda found
-    echo_debug "Found conda (couldn't find mamba)"
+    echo_debug "Found conda (couldn't find micromamba or mamba)"
     exec_name="conda"
 else
     echo_fatal "Could not find mamba or conda! Install, source, and \
