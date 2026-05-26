@@ -14,6 +14,98 @@
 
 [public-release-link]: https://iiitaphyd-my.sharepoint.com/:f:/g/personal/robotics_iiit_ac_in/EtpBLzBFfqdHljqQMnm6xdoBzW-4KFLXieXDVN4vPg84Lg?e=BP6ZW1
 
+## DL-VINS master-VLAD codebook trainer (this fork)
+
+> Everything in [`vpr/`](./vpr/) and [`scripts/download_master_datasets.py`](./scripts/download_master_datasets.py)
+> is added by the [DL-VINS factory](../DL-VINS/). It trains one **master VLAD
+> codebook** per local-feature extractor (SuperPoint / XFeat / ALIKED), shipped
+> as `vlad_codebook_master_<ext>.bin` under
+> [`DL-VINS/src/loop_fusion/support_files/`](../DL-VINS/src/loop_fusion/support_files/).
+> The C++ loop-closure runtime loads it as a warm-start seed, then refits
+> k-means online against the deployment's own descriptors at KF = `vlad_warmup_kfs`.
+> So the master only needs broad descriptor coverage, not deployment-specific
+> clusters. Train on held-out VPR benchmark datasets — never on a DL-VINS
+> evaluation dataset (train/eval leakage).
+>
+> ### Setup
+>
+> ```shell
+> uv sync                       # core deps (torch, opencv, sklearn, …)
+> uv sync --group viz           # +umap-learn   (optional, for plots)
+> uv sync --group datasets      # +gdown/skimage/utm  (only if you need
+>                               #  scripts/download_master_datasets.py to fetch
+>                               #  from datasets_vg/ — fully optional if you've
+>                               #  already staged the OneDrive .tar.gz files)
+> ```
+>
+> ### Train (after staging the OneDrive tarballs once)
+>
+> AnyLoc's [public release][public-release-link] ships pre-processed VPR
+> tarballs. Sign in once, download whichever you want into
+> `custom_datasets/AnyLoc2023-Public-Data/Public/Datasets-All/`, then:
+>
+> ```shell
+> # extract (default mix: indoor + campus + aerial + corridor + subt)
+> uv run python -m scripts.download_master_datasets
+> uv run python -m scripts.download_master_datasets --list   # all 12 options
+>
+> # fit + export master codebooks (native resolution per image)
+> uv run python -m vpr.export_codebook \
+>     --extractors superpoint xfeat aliked \
+>     --image-roots datasets_vg/datasets/baidu_datasets \
+>                   datasets_vg/datasets/17places \
+>                   datasets_vg/datasets/gardens \
+>                   datasets_vg/datasets/VPAir \
+>                   datasets_vg/datasets/hawkins_long_corridor \
+>                   datasets_vg/datasets/laurel_caverns
+> ```
+>
+> Outputs land at `DL-VINS/src/loop_fusion/support_files/vlad_codebook_master_{aliked,superpoint,xfeat}.bin`.
+> Set `vlad_master_codebook: ""` in `loop_fusion_euroc.yaml` to cold-start (no
+> seed); both modes are valid.
+>
+> ### Inspect (optional)
+>
+> ```shell
+> # single-plot UMAP — descriptor scatter + master centres, per extractor:
+> uv run python -m vpr.visualize_codebook --image-roots <same as above>
+>
+> # 3x3 grid sweep over (n_neighbors x min_dist) on the same pool:
+> uv run python -m vpr.visualize_codebook --sweep --image-roots <same>
+>
+> # overlay held-out deployment frames (does the master generalize?):
+> source /opt/ros/humble/setup.bash
+> uv run python -m vpr.extract_rosbag \
+>     --bag /media/ubuntu/Crucial/dataset/2_EuRoC/V1_01_easy \
+>     --topic /cam0/image_raw --out /tmp/euroc_cam0/V1_01_easy --stride 5
+> uv run python -m vpr.visualize_codebook \
+>     --image-roots <master roots> \
+>     --deployment-roots /tmp/euroc_cam0/V1_01_easy
+> ```
+>
+> Plots land in `tmp/vpr/viz/`. Deployment points falling inside the training
+> cloud → master generalizes; forming a separate island → runtime refit will
+> move centres further (still works, just less master benefit).
+>
+> ### What changed vs upstream AnyLoc
+>
+> Upstream AnyLoc is preserved as a git submodule; this README block + the
+> three additions below are the only DL-VINS-specific changes:
+>
+> | path | purpose |
+> | --- | --- |
+> | [`vpr/`](./vpr/) | Slim master-codebook trainer. Loads PyTorch SuperPoint / XFeat / ALIKED at **native** image resolution (per-extractor `target_wh` override available), pools descriptors, fits k-means, writes `.bin`. Optional UMAP visualiser + ROS 2 bag → PNG extractor. |
+> | [`scripts/download_master_datasets.py`](./scripts/download_master_datasets.py) | Extract pre-staged OneDrive `.tar.gz` files into `datasets_vg/datasets/<name>/` with a printable copy-paste `vpr.export_codebook` command. |
+> | [`pyproject.toml`](./pyproject.toml) + `uv.lock` | uv-managed env (replaces the legacy `conda-environment.yml` workflow). On aarch64 / Jetson, `torch` + `torchvision` resolve to Jetson AI Lab CUDA wheels via `[tool.uv.sources]`. Conda files kept for upstream reference. |
+>
+> The corresponding C++ changes in DL-VINS — online warm-start refit, master
+> `.bin` loader, YAML/launch tunables — live in
+> [`DL-VINS/src/loop_fusion/`](../DL-VINS/src/loop_fusion/) and
+> [`DL-VINS/src/dl_vins/launch/euroc_mono.launch.py`](../DL-VINS/src/dl_vins/launch/euroc_mono.launch.py).
+> See the loop_fusion YAML at
+> [`loop_fusion_euroc.yaml`](../DL-VINS/src/loop_fusion/config/loop_fusion_euroc.yaml)
+> for the runtime knobs (`vlad_clusters`, `vlad_warmup_kfs`, `vlad_master_codebook`).
+
 ## Table of contents
 
 - [AnyLoc: Towards Universal Visual Place Recognition](#anyloc-towards-universal-visual-place-recognition)
